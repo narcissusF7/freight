@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.lukachangtong</groupId>
+    <artifactId>freight-platform</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>freight-app</artifactId>
+  <description>唯一可启动模块：启动类、Controller 聚合、配置、Flyway 脚本、打包</description>
+  <dependencies>
+    <dependency><groupId>com.lukachangtong</groupId><artifactId>freight-common</artifactId></dependency>
+    <dependency><groupId>com.lukachangtong</groupId><artifactId>freight-api</artifactId></dependency>
+    <dependency><groupId>com.lukachangtong</groupId><artifactId>freight-infra</artifactId></dependency>
+    <dependency><groupId>com.lukachangtong</groupId><artifactId>freight-auth</artifactId></dependency>
+    <dependency><groupId>com.lukachangtong</groupId><artifactId>freight-basedata</artifactId></dependency>
+    <dependency><groupId>com.lukachangtong</groupId><artifactId>freight-carrier</artifactId></dependency>
+    <dependency><groupId>com.lukachangtong</groupId><artifactId>freight-waybill</artifactId></dependency>
+    <dependency><groupId>com.lukachangtong</groupId><artifactId>freight-contract</artifactId></dependency>
+    <dependency><groupId>com.lukachangtong</groupId><artifactId>freight-track</artifactId></dependency>
+    <dependency><groupId>com.lukachangtong</groupId><artifactId>freight-message</artifactId></dependency>
+    <dependency><groupId>com.lukachangtong</groupId><artifactId>freight-payment</artifactId></dependency>
+    <dependency><groupId>com.lukachangtong</groupId><artifactId>freight-settlement</artifactId></dependency>
+    <dependency><groupId>com.lukachangtong</groupId><artifactId>freight-customer</artifactId></dependency>
+    <dependency><groupId>com.lukachangtong</groupId><artifactId>freight-stat</artifactId></dependency>
+    <dependency><groupId>com.lukachangtong</groupId><artifactId>freight-report</artifactId></dependency>
+    <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-web</artifactId></dependency>
+    <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-security</artifactId></dependency>
+    <dependency><groupId>org.flywaydb</groupId><artifactId>flyway-core</artifactId></dependency>
+    <!-- Flyway 9 起将各数据库支持拆分为独立模块，core 不再内置 MySQL；必须显式引入 flyway-mysql -->
+    <dependency><groupId>org.flywaydb</groupId><artifactId>flyway-mysql</artifactId></dependency>
+    <dependency><groupId>com.mysql</groupId><artifactId>mysql-connector-j</artifactId><scope>runtime</scope></dependency>
+    <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-test</artifactId><scope>test</scope></dependency>
+    <dependency><groupId>com.tngtech.archunit</groupId><artifactId>archunit-junit5</artifactId><scope>test</scope></dependency>
+    <!-- 自包含冒烟测试：用 H2 内存库替代外部 MySQL，避免 test 依赖外部服务 -->
+    <dependency><groupId>com.h2database</groupId><artifactId>h2</artifactId><scope>test</scope></dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+</project>

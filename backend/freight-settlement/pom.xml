@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.lukachangtong</groupId>
+    <artifactId>freight-platform</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>freight-settlement</artifactId>
+  <description>结算域：计价、结算单、钱包与资金流水、提现、四方对账</description>
+  <dependencies>
+    <dependency><groupId>com.lukachangtong</groupId><artifactId>freight-common</artifactId></dependency>
+    <dependency><groupId>com.lukachangtong</groupId><artifactId>freight-api</artifactId></dependency>
+    <dependency><groupId>com.lukachangtong</groupId><artifactId>freight-infra</artifactId></dependency>
+    <!-- 结算编排支付：结算单确认后向 payment 下单并驱动支付，方向单一，payment 不反向依赖 -->
+    <dependency><groupId>com.lukachangtong</groupId><artifactId>freight-payment</artifactId></dependency>
+    <dependency><groupId>com.baomidou</groupId><artifactId>mybatis-plus-boot-starter</artifactId></dependency>
+  </dependencies>
+</project>

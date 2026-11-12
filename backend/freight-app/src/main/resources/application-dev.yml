@@ -1,0 +1,48 @@
+# 本地开发：需自行启动 MySQL 8 与 Redis（或 docker compose 起本地中间件）
+# 注意：本机 8080 已被另一项目 fjzx-gateway 占用，dev 端口改用 8088，前端 vite 代理同步指向 8088
+server:
+  port: 8088
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/freight?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:root123}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    host: ${REDIS_HOST:127.0.0.1}
+    port: ${REDIS_PORT:6379}
+    password: ${REDIS_PASSWORD:redis123}
+  flyway:
+    enabled: true
+
+freight:
+  integration:
+    mode: mock
+  driver:
+    # 司机端令牌 7 天：司机在途连续作业，2 小时过期会反复要求重登
+    token-seconds: 604800
+    geo-check:
+      # 到厂类节点（到达装货地/装货完成/到达卸货地/卸货完成/签收）必须在装卸货地半径内，
+      # 防止司机在服务区点「已到达」。关掉后仍记录距离供人工复核。
+      enabled: true
+      radius-meters: 5000
+    capacity-check:
+      # 超载拦截：核定载重小于货重直接拒绝接单（合规硬约束）
+      enabled: true
+  payment:
+    # 发起支付后立即调银行（mock 即时返回）。生产建议置 false，由定时任务/人工确认后执行，
+    # 避免银行超时把前端请求拖住；支付单本身已是 PENDING 可查、可重试。
+    auto-execute: true
+  reconciliation:
+    bank-file:
+      # 严格核对银行对账文件。生产必须 true；
+      # dev 关掉是因为 mock 银行账本在内存里，进程重启即丢，会产生「历史单子在文件里查不到」的假差异。
+      strict: false
+  stat:
+    job:
+      # 日切后补算「昨天」的预聚合。dev 关掉：手动点「重算」更直观，也避免测试时后台线程抢跑。
+      enabled: false
+
+logging:
+  level:
+    com.lukachangtong.freight: DEBUG

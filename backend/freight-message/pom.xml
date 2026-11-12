@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.lukachangtong</groupId>
+    <artifactId>freight-platform</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>freight-message</artifactId>
+  <description>消息域：四通道（短信/微信/APP推送/站内信）模板化发送、失败重试、站内信收件箱</description>
+  <dependencies>
+    <dependency><groupId>com.lukachangtong</groupId><artifactId>freight-common</artifactId></dependency>
+    <dependency><groupId>com.lukachangtong</groupId><artifactId>freight-api</artifactId></dependency>
+    <dependency><groupId>com.lukachangtong</groupId><artifactId>freight-infra</artifactId></dependency>
+    <dependency><groupId>com.baomidou</groupId><artifactId>mybatis-plus-boot-starter</artifactId></dependency>
+  </dependencies>
+</project>

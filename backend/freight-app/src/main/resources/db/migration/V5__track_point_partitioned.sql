@@ -1,0 +1,40 @@
+-- M3 轨迹：按月 RANGE 分区的事实表。
+-- 为什么分区而不是单表：轨迹是纯追加、查询永远带时间窗，DROP PARTITION 清理冷数据是秒级操作，
+-- 而 DELETE 大批量会产生巨大 undo/binlog 并锁表。单分区控制在 5GB 以内。
+-- 注意：MySQL 要求唯一键必须包含分区列，因此主键为 (id, gps_time)，业务唯一键为 (waybill_id, gps_time)。
+-- 由此实体不要用 updateById（MyBatis-Plus 不支持复合主键），轨迹只做 insert 与按时间窗 select。
+
+CREATE TABLE tr_track_point (
+  id          BIGINT       NOT NULL AUTO_INCREMENT,
+  waybill_id  BIGINT       NOT NULL,
+  driver_id   BIGINT       DEFAULT NULL,
+  vehicle_id  BIGINT       DEFAULT NULL,
+  lat         DECIMAL(10,6) NOT NULL COMMENT 'GCJ-02 纬度',
+  lng         DECIMAL(10,6) NOT NULL COMMENT 'GCJ-02 经度',
+  speed       DECIMAL(6,2) DEFAULT NULL COMMENT 'km/h',
+  direction   SMALLINT     DEFAULT NULL COMMENT '航向 0-359',
+  altitude    DECIMAL(8,2) DEFAULT NULL COMMENT '海拔 m',
+  accuracy    DECIMAL(8,2) DEFAULT NULL COMMENT '定位精度 m，>100 视为漂移',
+  gps_time    DATETIME     NOT NULL COMMENT '设备定位时间（分区键）',
+  report_time DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '服务端接收时间',
+  source      VARCHAR(16)  NOT NULL DEFAULT 'APP' COMMENT 'APP / DEVICE / DEMO',
+  PRIMARY KEY (id, gps_time),
+  UNIQUE KEY uk_track_wb_time (waybill_id, gps_time)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='运单轨迹点（按月分区，在线保留 6 个月）'
+PARTITION BY RANGE COLUMNS(gps_time) (
+  PARTITION p202611 VALUES LESS THAN ('2026-12-01'),
+  PARTITION p202612 VALUES LESS THAN ('2027-01-01'),
+  PARTITION p202701 VALUES LESS THAN ('2027-02-01'),
+  PARTITION p202702 VALUES LESS THAN ('2027-03-01'),
+  PARTITION p202703 VALUES LESS THAN ('2027-04-01'),
+  PARTITION p202704 VALUES LESS THAN ('2027-05-01'),
+  PARTITION p202705 VALUES LESS THAN ('2027-06-01'),
+  PARTITION p202706 VALUES LESS THAN ('2027-07-01'),
+  PARTITION p202707 VALUES LESS THAN ('2027-08-01'),
+  PARTITION p202708 VALUES LESS THAN ('2027-09-01'),
+  PARTITION p202709 VALUES LESS THAN ('2027-10-01'),
+  PARTITION p202710 VALUES LESS THAN ('2027-11-01'),
+  PARTITION p202711 VALUES LESS THAN ('2027-12-01'),
+  PARTITION p202712 VALUES LESS THAN ('2028-01-01'),
+  PARTITION pmax    VALUES LESS THAN (MAXVALUE)
+);

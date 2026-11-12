@@ -1,0 +1,56 @@
+spring:
+  application:
+    name: freight-app
+  profiles:
+    active: dev
+  jackson:
+    time-zone: Asia/Shanghai
+    date-format: yyyy-MM-dd HH:mm:ss
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: false
+    # 迁移脚本里含有业务模板占位符 ${var}（消息模板文案），必须关掉 Flyway 的占位符替换，
+    # 否则会被当作 Flyway placeholder 解析并报 "No value provided for placeholder"。
+    placeholder-replacement: false
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+
+server:
+  port: 8080
+  tomcat:
+    uri-encoding: UTF-8
+
+# dev/test 用 mock 本地模拟；prod 强制 real，真实 SDK 未对接时禁止带模拟数据上线
+freight:
+  integration:
+    mode: mock
+  jwt:
+    # 生产必须由外部密钥管理（KMS/配置中心）下发，禁止硬编码真实密钥；HS256 要求 >= 32 字节
+    secret: freight-platform-default-secret-key-please-change-in-prod-2026
+    expiration-seconds: 7200
+  track:
+    alarm:
+      # 限速/停留/偏航阈值按线路与车型差异很大，这里给默认值，生产按机构覆盖
+      overspeed-kmh: 90
+      stay-speed-kmh: 5
+      stay-minutes: 30
+      deviate-km: 30
+      # 装卸围栏只对「装卸点在该半径内」的运单生效；禁行/自定义围栏仍为机构级
+      fence-match-km: 10
+    job:
+      # 默认关闭：单测会加载应用上下文，不能真改表结构；生产由 XXL-Job 或本开关触发
+      enabled: false
+      partition-cron: "0 30 2 25 * ?"
+      archive-cron: "0 30 3 * * ?"
+  message:
+    job:
+      # 消息投递调度器；关闭时仍可通过 POST /api/messages/dispatch 手动触发
+      enabled: false
+      dispatch-interval-ms: 30000
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%X{traceId:-}] %-5level %logger{36} - %msg%n"

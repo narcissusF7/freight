@@ -1,0 +1,17 @@
+target/
+*/target/
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+.vscode/
+logs/
+*.log
+.env
+.env.*
+!.env.example
+application-local.yml
+jdk8-sources.txt
+*.class
+.DS_Store

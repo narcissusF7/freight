@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.lukachangtong</groupId>
+    <artifactId>freight-platform</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>freight-customer</artifactId>
+  <description>客服域：投诉（24h 时效）、双向星级评价、信用评分</description>
+  <dependencies>
+    <dependency><groupId>com.lukachangtong</groupId><artifactId>freight-common</artifactId></dependency>
+    <!-- 只依赖 api：读运单参与方走 WaybillPartyPort，发通知走 MessageNotifyPort，
+         两个端口分别由 waybill / message 实现，客服域不反向依赖它们 -->
+    <dependency><groupId>com.lukachangtong</groupId><artifactId>freight-api</artifactId></dependency>
+    <dependency><groupId>com.baomidou</groupId><artifactId>mybatis-plus-boot-starter</artifactId></dependency>
+  </dependencies>
+</project>

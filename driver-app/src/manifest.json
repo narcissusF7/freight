@@ -1,0 +1,84 @@
+{
+  "name": "鹭卡畅通司机端",
+  "appid": "",
+  "description": "网络货运平台司机端：找货接单、节点确认、轨迹上报、回单上传",
+  "versionName": "0.1.0",
+  "versionCode": "100",
+  "transformPx": false,
+  "app-plus": {
+    "usingComponents": true,
+    "nvueStyleCompiler": "uni-app",
+    "compilerVersion": 3,
+    "splashscreen": {
+      "alwaysShowBeforeRender": true,
+      "waiting": true,
+      "autoclose": true,
+      "delay": 0
+    },
+    "modules": {
+      "Geolocation": {},
+      "Maps": {},
+      "Camera": {},
+      "Push": {}
+    },
+    "distribute": {
+      "android": {
+        "permissions": [
+          "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>",
+          "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>",
+          "<uses-permission android:name=\"android.permission.CAMERA\"/>",
+          "<uses-permission android:name=\"android.permission.INTERNET\"/>",
+          "<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>"
+        ],
+        "minSdkVersion": 23,
+        "targetSdkVersion": 30
+      },
+      "ios": {
+        "dSYMs": false,
+        "privacyDescription": {
+          "NSLocationWhenInUseUsageDescription": "用于在途轨迹上报与装卸货地到达确认",
+          "NSLocationAlwaysAndWhenInUseUsageDescription": "运输途中需要持续采集位置以完成轨迹与监管上报",
+          "NSCameraUsageDescription": "用于拍摄装卸货与回单凭证"
+        }
+      },
+      "sdkConfigs": {
+        "maps": {
+          "tencent": {
+            "key": ""
+          }
+        },
+        "push": {
+          "unipush": {
+            "version": "2",
+            "offline": false
+          }
+        }
+      }
+    }
+  },
+  "quickapp": {},
+  "mp-weixin": {
+    "appid": "",
+    "setting": {
+      "urlCheck": false
+    },
+    "usingComponents": true,
+    "permission": {
+      "scope.userLocation": {
+        "desc": "用于在途轨迹上报与装卸货地到达确认"
+      }
+    },
+    "requiredPrivateInfos": ["getLocation", "chooseLocation"]
+  },
+  "h5": {
+    "title": "鹭卡畅通 · 司机端",
+    "router": {
+      "mode": "hash",
+      "base": "./"
+    },
+    "devServer": {
+      "port": 5174
+    }
+  },
+  "vueVersion": "3"
+}

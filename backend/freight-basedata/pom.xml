@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.lukachangtong</groupId>
+    <artifactId>freight-platform</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>freight-basedata</artifactId>
+  <description>货主、货物、常用地址、承运商、收款人、车务、价格公式、签章位置</description>
+  <dependencies>
+    <dependency><groupId>com.lukachangtong</groupId><artifactId>freight-common</artifactId></dependency>
+    <dependency><groupId>com.lukachangtong</groupId><artifactId>freight-api</artifactId></dependency>
+    <dependency><groupId>com.lukachangtong</groupId><artifactId>freight-infra</artifactId></dependency>
+  </dependencies>
+</project>
